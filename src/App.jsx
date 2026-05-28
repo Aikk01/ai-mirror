@@ -334,7 +334,7 @@ export default function App(){
     const byMonth={};
     for(const m of msgs){const d=new Date(m.time*1000);const k=`${d.toLocaleString("default",{month:"short"})} ${d.getFullYear()}`;if(!byMonth[k])byMonth[k]=[];byMonth[k].push(m.text.slice(0,60));}
     const monthStr=Object.entries(byMonth).map(([mo,ms])=>`[${mo} — ${ms.length} msgs]\n${ms.slice(0,40).join("\n")}`).join("\n\n");
-    const res=await fetch("/api/analyze", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
+    const res=await fetch("/api/analyze", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
 insights: personality traits, cognitive style, blind spots. NO topic refs. Start with emoji.
 aiAdvice: specific personalised tips. Start with emoji.
 topTopics: ranked 1-5.
@@ -433,7 +433,7 @@ JSON:{"personality":{"openness":0-100,"conscientiousness":0-100,"extraversion":0
         {/* Section 1: MBTI + identity — MBTI-type illustration */}
         <Section illus={<SceneBG mbti={analysis.mbti} c={mc}/>} minH="320px" pad="2rem 2rem 1.5rem">
           <div style={{textAlign:"center",marginBottom:"1.5rem"}}>
-            <h1 style={{fontSize:"1.8rem",fontWeight:800,margin:"0 0 0.25rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Your AI Mirror</h1>
+            <h1 style={{fontSize:"1.8rem",fontWeight:800,margin:"0 0 0.25rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",WebkitBoxDecorationBreak:"clone", WebkitBoxDecorationBreak:"clone"}}>Your AI Mirror</h1>
             <p style={{color:"#4a4a6a",margin:0,fontSize:"0.84rem"}}>{msgCount.toLocaleString()} messages analysed</p>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem"}}>
