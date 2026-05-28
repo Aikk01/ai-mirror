@@ -1,16 +1,34 @@
-# React + Vite
+# AI Mirror
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AI Mirror is a Vite + React app that analyzes exported chat histories from Claude or ChatGPT and turns them into a personality profile, MBTI estimate, mood timeline, and topic summary.
 
-Currently, two official plugins are available:
+## What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Upload a `conversations.json` or `conversations.jsonl` export.
+- Detect personality traits, MBTI type, dominant emotion, and asking style.
+- Visualize mood trends and top conversation topics.
+- Call the Anthropic API through the serverless `/api/analyze` route.
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Open the local Vite URL shown in the terminal after the dev server starts.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Environment
+
+Create an `ANTHROPIC_API_KEY` environment variable before using the analysis feature. The API route forwards requests to Anthropic with that key.
+
+## Scripts
+
+- `npm run dev` - start the local development server
+- `npm run build` - build the app for production
+- `npm run lint` - run ESLint
+- `npm run preview` - preview the production build locally
+
+## Deployment
+
+The repo includes a Vercel rewrite so `/api/*` routes resolve to the serverless handler in `api/`.
