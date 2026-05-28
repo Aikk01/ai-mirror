@@ -334,7 +334,7 @@ export default function App(){
     const byMonth={};
     for(const m of msgs){const d=new Date(m.time*1000);const k=`${d.toLocaleString("default",{month:"short"})} ${d.getFullYear()}`;if(!byMonth[k])byMonth[k]=[];byMonth[k].push(m.text.slice(0,60));}
     const monthStr=Object.entries(byMonth).map(([mo,ms])=>`[${mo} — ${ms.length} msgs]\n${ms.slice(0,40).join("\n")}`).join("\n\n");
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
 insights: personality traits, cognitive style, blind spots. NO topic refs. Start with emoji.
 aiAdvice: specific personalised tips. Start with emoji.
 mbti: determine the MOST LIKELY 4-letter MBTI based on how they think and communicate — be consistent, don't guess randomly.
