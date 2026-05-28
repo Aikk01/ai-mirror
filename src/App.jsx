@@ -316,7 +316,7 @@ const parseClaude=raw=>{let c=[];try{const p=JSON.parse(raw);c=Array.isArray(p)?
 const parseChatGPT=data=>{const m=[];for(const c of(Array.isArray(data)?data:[data])){if(!c.mapping)continue;for(const k of Object.keys(c.mapping)){const n=c.mapping[k];if(n?.message?.author?.role==="user"){const p=n.message.content?.parts;if(!p)continue;const t=p.filter(x=>typeof x==="string").join(" ").trim();const ts=n.message.create_time;if(t.length>15&&ts)m.push({text:t.slice(0,200),time:ts});}}}return m.sort((a,b)=>a.time-b.time);};
 
 const card=(extra={})=>({background:"rgba(14,14,22,0.75)",backdropFilter:"blur(16px)",WebkitBackdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:"1.25rem",padding:"1.4rem",position:"relative",zIndex:1,...extra});
-const lbl={color:"#4a4a6a",fontSize:"0.68rem",textTransform:"uppercase",letterSpacing:"0.12em",margin:"0 0 0.6rem",display:"block"};
+const lbl={color:"#94a3b8",fontSize:"0.68rem",textTransform:"uppercase",letterSpacing:"0.12em",margin:"0 0 0.6rem",display:"block"};
 const PAGE={minHeight:"100vh",fontFamily:"'Inter',system-ui,sans-serif",color:"#e2e8f0",background:"#09090f"};
 const GRAD="radial-gradient(ellipse 70% 50% at 5% 0%, rgba(124,58,237,0.18) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 95% 100%, rgba(219,39,119,0.14) 0%, transparent 55%)";
 
@@ -334,11 +334,10 @@ export default function App(){
     const byMonth={};
     for(const m of msgs){const d=new Date(m.time*1000);const k=`${d.toLocaleString("default",{month:"short"})} ${d.getFullYear()}`;if(!byMonth[k])byMonth[k]=[];byMonth[k].push(m.text.slice(0,60));}
     const monthStr=Object.entries(byMonth).map(([mo,ms])=>`[${mo} — ${ms.length} msgs]\n${ms.slice(0,40).join("\n")}`).join("\n\n");
-    const res=await fetch("/api/analyze", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,messages:[{role:"user",content:`Psychologist analysing someone's full AI chat history. Return ONLY compact JSON.
 insights: personality traits, cognitive style, blind spots. NO topic refs. Start with emoji.
 aiAdvice: specific personalised tips. Start with emoji.
-topTopics: ranked 1-5.
-moodByMonth: every month.
+mbti: determine the MOST LIKELY 4-letter MBTI based on how they think and communicate — be consistent, don't guess randomly.
 
 ${monthStr}
 
@@ -374,7 +373,7 @@ JSON:{"personality":{"openness":0-100,"conscientiousness":0-100,"extraversion":0
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       <div style={{textAlign:"center",marginBottom:"2rem",zIndex:1}}>
         <div style={{fontSize:"2.5rem",marginBottom:"0.5rem"}}>🪞</div>
-        <h1 style={{fontSize:"2rem",fontWeight:800,margin:"0 0 0.4rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AI Mirror</h1>
+        <h1 style={{fontSize:"2rem",fontWeight:800,margin:"0 0 0.4rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",paddingBottom:"6px",display:"inline-block"}}>AI Mirror</h1>
         <p style={{color:"#4a4a6a",fontSize:"0.95rem",margin:0}}>Upload your chat history. Discover what it reveals about you.</p>
       </div>
       <div style={{...card(),width:"100%",maxWidth:"440px"}}>
@@ -433,7 +432,7 @@ JSON:{"personality":{"openness":0-100,"conscientiousness":0-100,"extraversion":0
         {/* Section 1: MBTI + identity — MBTI-type illustration */}
         <Section illus={<SceneBG mbti={analysis.mbti} c={mc}/>} minH="320px" pad="2rem 2rem 1.5rem">
           <div style={{textAlign:"center",marginBottom:"1.5rem"}}>
-            <h1 style={{fontSize:"1.8rem",fontWeight:800,margin:"0 0 0.25rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",WebkitBoxDecorationBreak:"clone", WebkitBoxDecorationBreak:"clone"}}>Your AI Mirror</h1>
+            <h1 style={{fontSize:"1.8rem",fontWeight:800,margin:"0 0 0.25rem",background:"linear-gradient(135deg,#7c3aed,#db2777)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",paddingBottom:"6px",display:"inline-block"}}>Your AI Mirror</h1>
             <p style={{color:"#4a4a6a",margin:0,fontSize:"0.84rem"}}>{msgCount.toLocaleString()} messages analysed</p>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem"}}>
